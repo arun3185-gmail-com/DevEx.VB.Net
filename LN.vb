@@ -97,6 +97,18 @@ Namespace LN
             Me.FormCollection = formCollection
         End Sub
 
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesForm
+            Get
+                Return New LN.NotesForm(Me.FormCollection(Index))
+            End Get
+        End Property
+
+        Public ReadOnly Property Length() As Integer
+            Get
+                Return Me.FormCollection.Length
+            End Get
+        End Property
+
         Protected Overrides Sub Finalize()
             FormCollection = Nothing
         End Sub
