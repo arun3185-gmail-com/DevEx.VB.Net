@@ -66,15 +66,99 @@ Namespace LN
             End Get
         End Property
 
+        Public ReadOnly Property Categories() As String
+            Get
+                Return Database.Categories
+            End Get
+        End Property
+
+        Public ReadOnly Property Created() As DateTime
+            Get
+                Return Database.Created
+            End Get
+        End Property
+        
+        Public ReadOnly Property CurrentAccessLevel() As Integer
+            Get
+                Return Database.CurrentAccessLevel
+            End Get
+        End Property
+
+        Public ReadOnly Property DesignTemplateName() As String
+            Get
+                Return Database.DesignTemplateName
+            End Get
+        End Property
+
+        Public ReadOnly Property FileFormat() As Integer
+            Get
+                Return Database.FileFormat
+            End Get
+        End Property
+
+        Public ReadOnly Property FileName() As String
+            Get
+                Return Database.FileName
+            End Get
+        End Property
+
+        Public ReadOnly Property FilePath() As String
+            Get
+                Return Database.FilePath
+            End Get
+        End Property
+
+        Public ReadOnly Property FolderReferencesEnabled() As Boolean
+            Get
+                Return Database.FolderReferencesEnabled
+            End Get
+        End Property
+
         Public ReadOnly Property Forms() As NotesFormCollection
             Get
                 Return New LN.NotesFormCollection(Database.Forms)
             End Get
         End Property
 
+        Public ReadOnly Property HttpURL() As String
+            Get
+                Return Database.HttpURL
+            End Get
+        End Property
+
+        Public ReadOnly Property LastModified() As DateTime
+            Get
+                Return Database.LastModified
+            End Get
+        End Property
+
         Public ReadOnly Property NotesURL() As String
             Get
                 Return Database.NotesURL
+            End Get
+        End Property
+
+        Public ReadOnly Property ReplicaID() As String
+            Get
+                Return Database.ReplicaID
+            End Get
+        End Property
+
+        Public ReadOnly Property Server() As String
+            Get
+                Return Database.Server
+            End Get
+        End Property
+
+        Public ReadOnly Property Size() As Double
+            Get
+                Return Database.Size
+            End Get
+        End Property
+
+        Public ReadOnly Property TemplateName() As String
+            Get
+                Return Database.TemplateName
             End Get
         End Property
 
