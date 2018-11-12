@@ -5,6 +5,40 @@ Imports Microsoft.VisualBasic.Interaction
 
 Namespace LN
 
+    Public Enum NotesItemDataType As Integer
+        UNKNOWN = 0
+        RICHTEXT = 1
+        COLLATION = 2
+        NOTEREFS = 4
+        ICON = 6
+        NOTELINKS = 7
+        SIGNATURE = 8
+        USERDATA = 14
+        QUERYCD = 15
+        ACTIONCD = 16
+        ASSISTANTINFO = 17
+        VIEWMAPDATA = 18
+        VIEWMAPLAYOUT = 19
+        LSOBJECT = 20
+        HTML = 21
+        MIME_PART = 25
+        ERRORITEM = 256
+        UNAVAILABLE = 512
+        NUMBERS = 768
+        DATETIMES = 1024
+        NAMES = 1074
+        READERS = 1075
+        AUTHORS = 1076
+        ATTACHMENT = 1084
+        OTHEROBJECT = 1085
+        EMBEDDEDOBJECT = 1090
+        TEXT = 1280
+        TEXT = 1281
+        FORMULA = 1536
+        USERID = 1792
+    End Enum
+
+    
     Public Class NotesSession
 
         Private session As Object
@@ -36,7 +70,6 @@ Namespace LN
                 Return session.ConvertMIME
             End Get
         End Property
-
 
         Public Function GetDatabase(ByVal serverName As String, ByVal lnFilePath As String) As NotesDatabase
             Return New LN.NotesDatabase(session.GetDatabase(serverName, lnFilePath))
@@ -165,6 +198,12 @@ Namespace LN
         Public ReadOnly Property Title() As String
             Get
                 Return Database.Title
+            End Get
+        End Property
+
+        Public ReadOnly Property Views() As LN.NotesView()
+            Get
+                Return Database.Views
             End Get
         End Property
 
@@ -435,11 +474,11 @@ Namespace LN
             End Get
         End Property
 
-        'Public ReadOnly Property Items() As NotesItemArray
-        '    Get
-        '        Return New NotesItemArray(Doc.Items)
-        '    End Get
-        'End Property
+        Public ReadOnly Property Items() As NotesItemArray
+           Get
+               Return New NotesItemArray(Doc.Items)
+           End Get
+        End Property
 
         Public ReadOnly Property Key() As String
             Get
@@ -634,7 +673,32 @@ Namespace LN
     End Class
 
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    
+    Public Class NotesItemArray
+        
+        Private items As Object
+
+        Public Sub New(ByRef items As Object)
+            Me.items = items
+        End Sub
+
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As LN.NotesItem
+            Get
+                Return New LN.NotesItem(Me.items(Index))
+            End Get
+        End Property
+
+        Public ReadOnly Property Length() As Integer
+            Get
+                Return Me.items.Length
+            End Get
+        End Property
+
+        Protected Overrides Sub Finalize()
+            Me.items = Nothing
+        End Sub
+
+    End Class
+
     ' Public Class NotesItemArray
     '     Implements IList(Of LN.NotesItem)
 
@@ -708,6 +772,38 @@ Namespace LN
     ' End Class
 
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Class NotesViewArray
+        
+        Private nViews As Object
+
+        Public Sub New(ByRef nViews As Object)
+            Me.nViews = nViews
+        End Sub
+
+        Public ReadOnly Property Count() As Long
+            Get
+                Return Me.nViews.Count
+            End Get
+        End Property
+
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesView
+            Get
+                Return New LN.NotesView(Me.nViews(Index))
+            End Get
+        End Property
+
+        Public ReadOnly Property Length() As Integer
+            Get
+                Return Me.nViews.Length
+            End Get
+        End Property
+        
+        Protected Overrides Sub Finalize()
+            Me.nViews = Nothing
+        End Sub
+
+    End Class
 
     Public Class NotesView
     
@@ -994,8 +1090,84 @@ Namespace LN
         End Sub
 
     End Class
-
+    
+    
     Public Class NotesDateTime
+    End Class
+    
+    
+    Public Class NotesUIWorkspace
+
+        Private notesUIWorkspace As Object
+        
+        Public Sub New()
+            Me.notesUIWorkspace = CreateObject("Notes.NotesUIWorkspace")
+        End Sub
+        
+        Protected Overrides Sub Finalize()
+            Me.notesUIWorkspace = Nothing
+        End Sub
+
+        Public ReadOnly Property CurrentDatabase() As NotesUIDatabase
+            Get
+                Return New LN.NotesUIDatabase(Me.notesUIWorkspace.CurrentDatabase)
+            End Get
+        End Property
+
+    End Class
+    
+    Public Class NotesUIDatabase
+
+        Private notesUIDatabase As Object
+        
+        Public Sub New(ByRef notesUIDatabase As Object)
+            Me.notesUIDatabase = notesUIDatabase
+        End Sub
+        
+        Protected Overrides Sub Finalize()
+            Me.notesUIDatabase = Nothing
+        End Sub
+
+        Public ReadOnly Property Database() As NotesDatabase
+            Get
+                Return notesUIDatabase.Database
+            End Get
+        End Property
+
+        Public ReadOnly Property Documents() As NotesDocumentCollection
+            Get
+                Return New LN.NotesDocumentCollection(notesUIDatabase.Documents)
+            End Get
+        End Property
+
+    End Class
+
+    Public Class NotesUIView
+
+        Private notesUIView As Object
+        
+        Public Sub New(ByRef notesUIView As Object)
+            Me.notesUIView = notesUIView
+        End Sub
+        
+        Protected Overrides Sub Finalize()
+            Me.notesUIView = Nothing
+        End Sub
+        
+    End Class
+
+    Public Class NotesUIDocument
+
+        Private notesUIDocument As Object
+        
+        Public Sub New(ByRef notesUIDocument As Object)
+            Me.notesUIDocument = notesUIDocument
+        End Sub
+        
+        Protected Overrides Sub Finalize()
+            Me.notesUIDocument = Nothing
+        End Sub
+        
     End Class
 
 End Namespace
