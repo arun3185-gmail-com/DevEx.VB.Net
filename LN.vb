@@ -4,6 +4,45 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Interaction
 
 Namespace LN
+    
+    Public Enum ACLLEVEL As Integer
+    End Enum
+
+    Public Enum ACLTYPE As Integer
+    End Enum
+
+    Public Enum AG_TARGET As Integer
+    End Enum
+
+    Public Enum AG_TRIGGER As Integer
+    End Enum
+
+    Public Enum DB_TYPES As Integer
+    End Enum
+
+' EMBED_TYPE
+' FT_TYPES
+' IT_TYPE
+' LOG_EVENTS
+' LOG_SEVERITY
+' NOTES_ERRORS
+' OE_CLASS
+' OE_TYPE
+' REG_TYPE
+' RP_PRIORITY
+' RT_ALIGN
+' RT_EFFECTS
+' RT_FONTS
+' RT_PAGINATE
+' RT_TAB
+' SPACING
+' USER_TYPE
+' VC_ALIGN
+' VC_DATEFMT
+' VC_FONTSTYLE
+' VC_NUMATTR
+' VC_NUMFMT
+' VC_SEP
 
     Public Enum NotesItemDataType As Integer
         UNKNOWN = 0
