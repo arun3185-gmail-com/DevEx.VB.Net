@@ -5,20 +5,20 @@ Imports Microsoft.VisualBasic.Interaction
 
 Namespace LN
     
-    Public Enum ACLLEVEL As Integer
-    End Enum
+    ' Public Enum ACLLEVEL As Integer
+    ' End Enum
 
-    Public Enum ACLTYPE As Integer
-    End Enum
+    ' Public Enum ACLTYPE As Integer
+    ' End Enum
 
-    Public Enum AG_TARGET As Integer
-    End Enum
+    ' Public Enum AG_TARGET As Integer
+    ' End Enum
 
-    Public Enum AG_TRIGGER As Integer
-    End Enum
+    ' Public Enum AG_TRIGGER As Integer
+    ' End Enum
 
-    Public Enum DB_TYPES As Integer
-    End Enum
+    ' Public Enum DB_TYPES As Integer
+    ' End Enum
 
 ' EMBED_TYPE
 ' FT_TYPES
@@ -72,7 +72,7 @@ Namespace LN
         OTHEROBJECT = 1085
         EMBEDDEDOBJECT = 1090
         TEXT = 1280
-        TEXT = 1281
+        TEXT_1281 = 1281
         FORMULA = 1536
         USERID = 1792
     End Enum
