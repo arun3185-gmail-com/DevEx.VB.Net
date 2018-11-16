@@ -77,7 +77,8 @@ Namespace LN
         USERID = 1792
     End Enum
 
-    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Public Class NotesSession
 
         Private session As Object
@@ -89,12 +90,11 @@ Namespace LN
         Protected Overrides Sub Finalize()
             session = Nothing
         End Sub
-
-
-
-        Public ReadOnly Property UserName() As String
+        
+        
+        Public ReadOnly Property AddressBooks() As NotesDatabaseArray
             Get
-                Return session.UserName
+                Return New LN.NotesDatabaseArray(session.AddressBooks)
             End Get
         End Property
 
@@ -110,8 +110,130 @@ Namespace LN
             End Get
         End Property
 
+        Public ReadOnly Property CurrentDatabase() As NotesDatabase
+            Get
+                Return New LN.NotesDatabase(session.CurrentDatabase)
+            End Get
+        End Property
+
+        Public ReadOnly Property DocumentContext() As NotesDocument
+            Get
+                Return New LN.NotesDocument(session.DocumentContext)
+            End Get
+        End Property
+
+        Public ReadOnly Property EffectiveUserName() As String
+            Get
+                Return session.EffectiveUserName
+            End Get
+        End Property
+
+        Public ReadOnly Property HttpURL() As String
+            Get
+                Return session.HttpURL
+            End Get
+        End Property
+
+        Public ReadOnly Property IsOnServer() As Boolean
+            Get
+                Return session.IsOnServer
+            End Get
+        End Property
+
+        Public ReadOnly Property LastExitStatus() As Long
+            Get
+                Return session.LastExitStatus
+            End Get
+        End Property
+
+        ' Public ReadOnly Property LastRun() As TTTTT
+        '     Get
+        '         Return session.LastRun
+        '     End Get
+        ' End Property
+
+        Public ReadOnly Property NotesBuildVersion() As Long
+            Get
+                Return session.NotesBuildVersion
+            End Get
+        End Property
+
+        Public ReadOnly Property NotesURL() As String
+            Get
+                Return session.NotesURL
+            End Get
+        End Property
+
+        Public ReadOnly Property NotesVersion() As String
+            Get
+                Return session.NotesVersion
+            End Get
+        End Property
+
+        Public ReadOnly Property OrgDirectoryPath() As String
+            Get
+                Return session.OrgDirectoryPath
+            End Get
+        End Property
+
+        Public ReadOnly Property Platform() As String
+            Get
+                Return session.Platform
+            End Get
+        End Property
+
+        Public ReadOnly Property SavedData() As NotesDocument
+            Get
+                Return New LN.NotesDocument(session.SavedData)
+            End Get
+        End Property
+
+        Public ReadOnly Property ServerName() As String
+            Get
+                Return session.ServerName
+            End Get
+        End Property
+
+        Public ReadOnly Property URLDatabase() As NotesDatabase
+            Get
+                Return New LN.NotesDatabase(session.URLDatabase)
+            End Get
+        End Property
+
+        ' Public ReadOnly Property xxxxx() As TTTTTT
+        '     Get
+        '         Return session.xxxxx
+        '     End Get
+        ' End Property
+        
+        Public ReadOnly Property UserName() As String
+            Get
+                Return session.UserName
+            End Get
+        End Property
+
+        Public Function CreateDateTime(ByVal dateTime As String) As NotesDateTime
+            Return New LN.NotesDateTime(session.CreateDateTime(dateTime))
+        End Function
+
+        Public Function Evaluate(ByVal formula As String, ByVal doc As LN.NotesDocument) As Object
+            Return session.Evaluate(formula, doc)
+        End Function
+
         Public Function GetDatabase(ByVal serverName As String, ByVal lnFilePath As String) As NotesDatabase
             Return New LN.NotesDatabase(session.GetDatabase(serverName, lnFilePath))
+        End Function
+
+        Public Function GetEnvironmentString(ByVal name As String, Optional ByVal system As Boolean = False) As Object
+            Return session.GetEnvironmentString(name, system)
+        End Function
+
+        Public Function GetEnvironmentValue(ByVal name As String, Optional ByVal system As Boolean = False) As Object
+            Return session.GetEnvironmentValue(name, system)
+        End Function
+
+        Public Function SendConsoleCommand(ByVal serverName As String, ByVal consoleCommand As String) As String
+            Return session.SendConsoleCommand(serverName, consoleCommand)
         End Function
 
     End Class
@@ -247,602 +369,37 @@ Namespace LN
         End Property
 
     End Class
-
-
+    
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    Public Class NotesFormCollection
+    Public Class NotesDatabaseArray
 
-        Private FormCollection As Object
+        Private DatabaseArray As Object
         
-        Public Sub New(ByRef formCollection As Object)
-            Me.FormCollection = formCollection
+        Public Sub New(ByRef databaseArray As Object)
+            Me.DatabaseArray = databaseArray
         End Sub
 
-        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesForm
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesDatabase
             Get
-                Return New LN.NotesForm(Me.FormCollection(Index))
+                Return New LN.NotesDatabase(Me.DatabaseArray(Index))
             End Get
         End Property
 
         Public ReadOnly Property Length() As Integer
             Get
-                Return Me.FormCollection.Length
+                Return Me.DatabaseArray.Length
             End Get
         End Property
 
         Protected Overrides Sub Finalize()
-            FormCollection = Nothing
+            DatabaseArray = Nothing
         End Sub
 
     End Class
 
-    Public Class NotesForm
-
-        Private nForm As Object
-
-        Public Sub New(ByRef nForm As Object)
-            Me.nForm = nForm
-        End Sub
-
-        Protected Overrides Sub Finalize()
-            Me.nForm = Nothing
-        End Sub
-
-        Public ReadOnly Property Aliases() As String()
-            Get
-                Return nForm.Aliases
-            End Get
-        End Property
-        
-        Public ReadOnly Property Fields() As String()
-            Get
-                Return nForm.Fields
-            End Get
-        End Property
-
-        Public ReadOnly Property FormUsers() As String()
-            Get
-                Return nForm.FormUsers
-            End Get
-        End Property
-
-        Public ReadOnly Property HttpURL() As String
-            Get
-                Return nForm.HttpURL
-            End Get
-        End Property
-        
-        Public ReadOnly Property IsSubForm() As Boolean
-            Get
-                Return nForm.IsSubForm
-            End Get
-        End Property
-        
-        Public ReadOnly Property LockHolders() As String()
-            Get
-                Return nForm.LockHolders
-            End Get
-        End Property
-
-        Public ReadOnly Property Name() As String
-            Get
-                Return nForm.Name
-            End Get
-        End Property
-
-        Public ReadOnly Property NotesURL() As String
-            Get
-                Return nForm.NotesURL
-            End Get
-        End Property
-
-        Public ReadOnly Property Readers() As String()
-            Get
-                Return nForm.Readers
-            End Get
-        End Property
-
-        Public Function GetFieldType(ByVal name As String) As Integer
-            Return nForm.GetFieldType(name)
-        End Function
-
-    End Class
-
-    Public Class NotesDocumentCollection
-        
-        Private DocCollection As Object
-        
-        Public Sub New(ByRef docCollection As Object)
-            Me.DocCollection = docCollection
-        End Sub
-
-        Protected Overrides Sub Finalize()
-            DocCollection = Nothing
-        End Sub
-
-
-        Public ReadOnly Property Count() As Long
-            Get
-                Return DocCollection.Count
-            End Get
-        End Property
-
-        Public ReadOnly Property IsSorted() As Boolean
-            Get
-                Return DocCollection.IsSorted
-            End Get
-        End Property
-
-        Public ReadOnly Property Query() As String
-            Get
-                Return DocCollection.Query
-            End Get
-        End Property
-
-
-        Public Function GetFirstDocument() As LN.NotesDocument
-            Dim doc1 As Object = DocCollection.GetFirstDocument()
-            If doc1 Is Nothing Then
-                Return Nothing
-            Else
-                Return New LN.NotesDocument(doc1)
-            End If
-        End Function
-
-        Public Function GetPrevDocument(doc As LN.NotesDocument) As LN.NotesDocument
-            Dim doc1 As Object = DocCollection.GetPrevDocument(doc.Doc)
-            If doc1 Is Nothing Then
-                Return Nothing
-            Else
-                Return New LN.NotesDocument(doc1)
-            End If
-        End Function
-
-        Public Function GetNextDocument(doc As LN.NotesDocument) As LN.NotesDocument
-            Dim doc1 As Object = DocCollection.GetNextDocument(doc.Doc)
-            If doc1 Is Nothing Then
-                Return Nothing
-            Else
-                Return New LN.NotesDocument(doc1)
-            End If
-        End Function
-
-        Public Function GetLastDocument() As LN.NotesDocument
-            Dim doc1 As Object = DocCollection.GetLastDocument()
-            If doc1 Is Nothing Then
-                Return Nothing
-            Else
-                Return New LN.NotesDocument(doc1)
-            End If
-        End Function
-
-    End Class
-
-
+    
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    Public Class NotesDocument
-        
-        Friend Doc As Object
-
-        Public Sub New(ByRef doc As Object)
-            Me.Doc = doc
-        End Sub
-
-        Protected Overrides Sub Finalize()
-            Doc = Nothing
-        End Sub
-
-
-        Public ReadOnly Property Authors() As String()
-            Get
-                Return Doc.Authors
-            End Get
-        End Property
-
-        Public ReadOnly Property ColumnValues() As Object()
-            Get
-                Return Doc.ColumnValues
-            End Get
-        End Property
-
-        Public ReadOnly Property Created() As DateTime
-            Get
-                Return Doc.Created
-            End Get
-        End Property
-
-        Public ReadOnly Property HasEmbedded() As Boolean
-            Get
-                Return Doc.HasEmbedded
-            End Get
-        End Property
-
-        Public ReadOnly Property HttpURL() As String
-            Get
-                Return Doc.HttpURL
-            End Get
-        End Property
-
-        Public ReadOnly Property IsDeleted() As Boolean
-            Get
-                Return Doc.IsDeleted
-            End Get
-        End Property
-
-        Public ReadOnly Property IsEncrypted() As Boolean
-            Get
-                Return Doc.IsEncrypted
-            End Get
-        End Property
-
-        Public ReadOnly Property IsNewNote() As Boolean
-            Get
-                Return Doc.IsNewNote
-            End Get
-        End Property
-
-        Public ReadOnly Property IsProfile() As Boolean
-            Get
-                Return Doc.IsProfile
-            End Get
-        End Property
-
-        Public ReadOnly Property IsResponse() As Boolean
-            Get
-                Return Doc.IsResponse
-            End Get
-        End Property
-
-        Public ReadOnly Property IsSigned() As Boolean
-            Get
-                Return Doc.IsSigned
-            End Get
-        End Property
-
-        Public ReadOnly Property IsUIDocOpen() As Boolean
-            Get
-                Return Doc.IsUIDocOpen
-            End Get
-        End Property
-
-        Public ReadOnly Property IsValid() As Boolean
-            Get
-                Return Doc.IsValid
-            End Get
-        End Property
-
-        Public ReadOnly Property Items() As NotesItemArray
-           Get
-               Return New NotesItemArray(Doc.Items)
-           End Get
-        End Property
-
-        Public ReadOnly Property Key() As String
-            Get
-                Return Doc.Key
-            End Get
-        End Property
-
-        Public ReadOnly Property LastAccessed() As DateTime
-            Get
-                Return Doc.LastAccessed
-            End Get
-        End Property
-
-        Public ReadOnly Property LastModified() As DateTime
-            Get
-                Return Doc.LastModified
-            End Get
-        End Property
-
-        Public ReadOnly Property NoteID() As String
-            Get
-                Return Doc.NoteID
-            End Get
-        End Property
-
-        Public ReadOnly Property NotesURL() As String
-            Get
-                Return Doc.NotesURL
-            End Get
-        End Property
-
-        Public ReadOnly Property Size() As Long
-            Get
-                Return Doc.Size
-            End Get
-        End Property
-
-        Public ReadOnly Property UniversalID() As String
-            Get
-                Return Doc.UniversalID
-            End Get
-        End Property
-
-        Public Function GetFirstItem(ByVal name As String) As NotesItem
-            Return New NotesItem(Doc.GetFirstItem(name))
-        End Function
-
-        Public Function GetItemValue(ByVal itemName As String) As System.Array
-            Return Doc.GetItemValue(itemName)
-        End Function
-
-        Public Function GetItemValueCustomDataBytes(ByVal itemName As String, ByVal dataTypeName As String) As Byte()
-            Return Doc.GetItemValueCustomDataBytes(itemName, dataTypeName)
-        End Function
-
-        Public Function HasItem(ByVal itemName As String) As Boolean
-            Return Doc.HasItem(itemName)
-        End Function
-
-    End Class
-
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    Public Class NotesItem
-        
-        Protected nItem As Object
-
-        Public Sub New(ByRef item As Object)
-            Me.nItem = item
-        End Sub
-
-        'Public Sub New(ByRef notesDocument As LN.NotesDocument, ByVal name As String, ByVal value As Object, Optional ByVal specialType As Integer)
-        '    Me.nItem = item
-        'End Sub
-
-        Protected Overrides Sub Finalize()
-            nItem = Nothing
-        End Sub
-
-        Public ReadOnly Property DateTimeValue() As NotesDateTime
-            Get
-                Return nItem.DateTimeValue
-            End Get
-        End Property
-
-        Public ReadOnly Property IsAuthors() As Boolean
-            Get
-                Return nItem.IsAuthors
-            End Get
-        End Property
-
-        Public ReadOnly Property IsEncrypted() As Boolean
-            Get
-                Return nItem.IsEncrypted
-            End Get
-        End Property
-
-        Public ReadOnly Property IsNames() As Boolean
-            Get
-                Return nItem.IsNames
-            End Get
-        End Property
-
-        Public ReadOnly Property IsProtected() As Boolean
-            Get
-                Return nItem.IsProtected
-            End Get
-        End Property
-
-        Public ReadOnly Property IsReaders() As Boolean
-            Get
-                Return nItem.IsReaders
-            End Get
-        End Property
-
-        Public ReadOnly Property IsSigned() As Boolean
-            Get
-                Return nItem.IsSigned
-            End Get
-        End Property
-
-        Public ReadOnly Property IsSummary() As Boolean
-            Get
-                Return nItem.IsSummary
-            End Get
-        End Property
-
-        Public ReadOnly Property LastModified() As Date
-            Get
-                Return nItem.LastModified
-            End Get
-        End Property
-
-        Public ReadOnly Property Name() As String
-            Get
-                Return nItem.Name
-            End Get
-        End Property
-
-        Public ReadOnly Property SaveToDisk() As Boolean
-            Get
-                Return nItem.SaveToDisk
-            End Get
-        End Property
-
-        Public ReadOnly Property Text() As String
-            Get
-                Return nItem.Text
-            End Get
-        End Property
-
-        Public ReadOnly Property Type() As Long
-            Get
-                Return nItem.Type
-            End Get
-        End Property
-
-        Public ReadOnly Property ValueLength() As Long
-            Get
-                Return nItem.ValueLength
-            End Get
-        End Property
-        
-        
-        Public Function GetValueCustomDataBytes(ByVal dataTypeName As String) As Byte()
-            Return nItem.GetValueCustomDataBytes(dataTypeName)
-        End Function
-
-
-    End Class
-
-    Public Class NotesRichTextItem
-        Inherits NotesItem
-        
-        Public Sub New(ByRef item As Object)
-            MyBase.New(item)
-        End Sub
-
-        Protected Overrides Sub Finalize()
-            MyBase.nItem = Nothing
-        End Sub
-
-        
-        Public Function GetFormattedText(ByVal tabstrip As Boolean, ByVal lineLength As Integer) As String
-            Return MyBase.nItem.GetFormattedText()
-        End Function
-
-        Public Function GetUnformattedText() As String
-            Return MyBase.nItem.GetUnformattedText()
-        End Function
-
-    End Class
-
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Class NotesItemArray
-        
-        Private items As Object
-
-        Public Sub New(ByRef items As Object)
-            Me.items = items
-        End Sub
-
-        Default Public ReadOnly Property Item(ByVal Index As Integer) As LN.NotesItem
-            Get
-                Return New LN.NotesItem(Me.items(Index))
-            End Get
-        End Property
-
-        Public ReadOnly Property Length() As Integer
-            Get
-                Return Me.items.Length
-            End Get
-        End Property
-
-        Protected Overrides Sub Finalize()
-            Me.items = Nothing
-        End Sub
-
-    End Class
-
-    ' Public Class NotesItemArray
-    '     Implements IList(Of LN.NotesItem)
-
-    '     Private items As System.Array
-
-    '     Public Sub New(ByRef items As System.Array)
-    '         Me.items = items
-    '     End Sub
-
-    '     Default ReadOnly Property Item(index as Integer) As LN.NotesItem
-    '         Get
-    '             Return New LN.NotesItem(items(index))
-    '         End Get
-    '     End Property
-
-    '     ReadOnly Property Count() As Integer
-    '         Get
-    '             Return items.Length
-    '         End Get
-    '     End Property
-
-    '     ReadOnly Property IsReadOnly() As Boolean
-    '         Get
-    '             Return True
-    '         End Get
-    '     End Property
-
-    '     Sub Add(item as LN.NotesItem)
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Sub
-
-    '     Sub Clear()
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Sub
-
-    '     Function Contains(item As LN.NotesItem) As Boolean
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Function
-
-    '     Sub CopyTo(arr As LN.NotesItem(), arrIndex As Integer)
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Sub
-
-    '     Function GetEnumerator() As IEnumerator(Of LN.NotesItem)
-    '         Return items.GetEnumerator()
-    '     End Function
-
-    '     Function IndexOf(item As LN.NotesItem) As Integer
-    '         Return Array.IndexOf(Me.items, item)
-    '     End Function
-
-    '     Sub Insert(index As Integer, item As LN.NotesItem)
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Sub
-
-    '     Function Remove(item As LN.NotesItem) As Boolean
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Function
-
-    '     Public Sub RemoveAt(ByVal index As Integer)
-    '         ' Not implemented
-    '         Throw New NotImplementedException()
-    '     End Sub
-
-    ' End Class
-
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-    Public Class NotesViewArray
-        
-        Private nViews As Object
-
-        Public Sub New(ByRef nViews As Object)
-            Me.nViews = nViews
-        End Sub
-
-        Public ReadOnly Property Count() As Long
-            Get
-                Return Me.nViews.Count
-            End Get
-        End Property
-
-        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesView
-            Get
-                Return New LN.NotesView(Me.nViews(Index))
-            End Get
-        End Property
-
-        Public ReadOnly Property Length() As Integer
-            Get
-                Return Me.nViews.Length
-            End Get
-        End Property
-        
-        Protected Overrides Sub Finalize()
-            Me.nViews = Nothing
-        End Sub
-
-    End Class
 
     Public Class NotesView
     
@@ -1130,11 +687,607 @@ Namespace LN
 
     End Class
     
-    
-    Public Class NotesDateTime
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Class NotesViewArray
+        
+        Private nViews As Object
+
+        Public Sub New(ByRef nViews As Object)
+            Me.nViews = nViews
+        End Sub
+
+        Public ReadOnly Property Count() As Long
+            Get
+                Return Me.nViews.Count
+            End Get
+        End Property
+
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesView
+            Get
+                Return New LN.NotesView(Me.nViews(Index))
+            End Get
+        End Property
+
+        Public ReadOnly Property Length() As Integer
+            Get
+                Return Me.nViews.Length
+            End Get
+        End Property
+        
+        Protected Overrides Sub Finalize()
+            Me.nViews = Nothing
+        End Sub
+
     End Class
     
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Class NotesForm
+
+        Private nForm As Object
+
+        Public Sub New(ByRef nForm As Object)
+            Me.nForm = nForm
+        End Sub
+
+        Protected Overrides Sub Finalize()
+            Me.nForm = Nothing
+        End Sub
+
+        Public ReadOnly Property Aliases() As String()
+            Get
+                Return nForm.Aliases
+            End Get
+        End Property
+        
+        Public ReadOnly Property Fields() As String()
+            Get
+                Return nForm.Fields
+            End Get
+        End Property
+
+        Public ReadOnly Property FormUsers() As String()
+            Get
+                Return nForm.FormUsers
+            End Get
+        End Property
+
+        Public ReadOnly Property HttpURL() As String
+            Get
+                Return nForm.HttpURL
+            End Get
+        End Property
+        
+        Public ReadOnly Property IsSubForm() As Boolean
+            Get
+                Return nForm.IsSubForm
+            End Get
+        End Property
+        
+        Public ReadOnly Property LockHolders() As String()
+            Get
+                Return nForm.LockHolders
+            End Get
+        End Property
+
+        Public ReadOnly Property Name() As String
+            Get
+                Return nForm.Name
+            End Get
+        End Property
+
+        Public ReadOnly Property NotesURL() As String
+            Get
+                Return nForm.NotesURL
+            End Get
+        End Property
+
+        Public ReadOnly Property Readers() As String()
+            Get
+                Return nForm.Readers
+            End Get
+        End Property
+
+        Public Function GetFieldType(ByVal name As String) As Integer
+            Return nForm.GetFieldType(name)
+        End Function
+
+    End Class
     
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Class NotesFormCollection
+
+        Private FormCollection As Object
+        
+        Public Sub New(ByRef formCollection As Object)
+            Me.FormCollection = formCollection
+        End Sub
+
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As NotesForm
+            Get
+                Return New LN.NotesForm(Me.FormCollection(Index))
+            End Get
+        End Property
+
+        Public ReadOnly Property Length() As Integer
+            Get
+                Return Me.FormCollection.Length
+            End Get
+        End Property
+
+        Protected Overrides Sub Finalize()
+            FormCollection = Nothing
+        End Sub
+
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+    Public Class NotesDocument
+        
+        Friend Doc As Object
+
+        Public Sub New(ByRef doc As Object)
+            Me.Doc = doc
+        End Sub
+
+        Protected Overrides Sub Finalize()
+            Doc = Nothing
+        End Sub
+
+
+        Public ReadOnly Property Authors() As String()
+            Get
+                Return Doc.Authors
+            End Get
+        End Property
+
+        Public ReadOnly Property ColumnValues() As Object()
+            Get
+                Return Doc.ColumnValues
+            End Get
+        End Property
+
+        Public ReadOnly Property Created() As DateTime
+            Get
+                Return Doc.Created
+            End Get
+        End Property
+
+        Public ReadOnly Property HasEmbedded() As Boolean
+            Get
+                Return Doc.HasEmbedded
+            End Get
+        End Property
+
+        Public ReadOnly Property HttpURL() As String
+            Get
+                Return Doc.HttpURL
+            End Get
+        End Property
+
+        Public ReadOnly Property IsDeleted() As Boolean
+            Get
+                Return Doc.IsDeleted
+            End Get
+        End Property
+
+        Public ReadOnly Property IsEncrypted() As Boolean
+            Get
+                Return Doc.IsEncrypted
+            End Get
+        End Property
+
+        Public ReadOnly Property IsNewNote() As Boolean
+            Get
+                Return Doc.IsNewNote
+            End Get
+        End Property
+
+        Public ReadOnly Property IsProfile() As Boolean
+            Get
+                Return Doc.IsProfile
+            End Get
+        End Property
+
+        Public ReadOnly Property IsResponse() As Boolean
+            Get
+                Return Doc.IsResponse
+            End Get
+        End Property
+
+        Public ReadOnly Property IsSigned() As Boolean
+            Get
+                Return Doc.IsSigned
+            End Get
+        End Property
+
+        Public ReadOnly Property IsUIDocOpen() As Boolean
+            Get
+                Return Doc.IsUIDocOpen
+            End Get
+        End Property
+
+        Public ReadOnly Property IsValid() As Boolean
+            Get
+                Return Doc.IsValid
+            End Get
+        End Property
+
+        Public ReadOnly Property Items() As NotesItemArray
+           Get
+               Return New NotesItemArray(Doc.Items)
+           End Get
+        End Property
+
+        Public ReadOnly Property Key() As String
+            Get
+                Return Doc.Key
+            End Get
+        End Property
+
+        Public ReadOnly Property LastAccessed() As DateTime
+            Get
+                Return Doc.LastAccessed
+            End Get
+        End Property
+
+        Public ReadOnly Property LastModified() As DateTime
+            Get
+                Return Doc.LastModified
+            End Get
+        End Property
+
+        Public ReadOnly Property NoteID() As String
+            Get
+                Return Doc.NoteID
+            End Get
+        End Property
+
+        Public ReadOnly Property NotesURL() As String
+            Get
+                Return Doc.NotesURL
+            End Get
+        End Property
+
+        Public ReadOnly Property Size() As Long
+            Get
+                Return Doc.Size
+            End Get
+        End Property
+
+        Public ReadOnly Property UniversalID() As String
+            Get
+                Return Doc.UniversalID
+            End Get
+        End Property
+
+        Public Function GetFirstItem(ByVal name As String) As NotesItem
+            Return New NotesItem(Doc.GetFirstItem(name))
+        End Function
+
+        Public Function GetItemValue(ByVal itemName As String) As System.Array
+            Return Doc.GetItemValue(itemName)
+        End Function
+
+        Public Function GetItemValueCustomDataBytes(ByVal itemName As String, ByVal dataTypeName As String) As Byte()
+            Return Doc.GetItemValueCustomDataBytes(itemName, dataTypeName)
+        End Function
+
+        Public Function HasItem(ByVal itemName As String) As Boolean
+            Return Doc.HasItem(itemName)
+        End Function
+
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Class NotesDocumentCollection
+        
+        Private DocCollection As Object
+        
+        Public Sub New(ByRef docCollection As Object)
+            Me.DocCollection = docCollection
+        End Sub
+
+        Protected Overrides Sub Finalize()
+            DocCollection = Nothing
+        End Sub
+
+
+        Public ReadOnly Property Count() As Long
+            Get
+                Return DocCollection.Count
+            End Get
+        End Property
+
+        Public ReadOnly Property IsSorted() As Boolean
+            Get
+                Return DocCollection.IsSorted
+            End Get
+        End Property
+
+        Public ReadOnly Property Query() As String
+            Get
+                Return DocCollection.Query
+            End Get
+        End Property
+
+
+        Public Function GetFirstDocument() As LN.NotesDocument
+            Dim doc1 As Object = DocCollection.GetFirstDocument()
+            If doc1 Is Nothing Then
+                Return Nothing
+            Else
+                Return New LN.NotesDocument(doc1)
+            End If
+        End Function
+
+        Public Function GetPrevDocument(doc As LN.NotesDocument) As LN.NotesDocument
+            Dim doc1 As Object = DocCollection.GetPrevDocument(doc.Doc)
+            If doc1 Is Nothing Then
+                Return Nothing
+            Else
+                Return New LN.NotesDocument(doc1)
+            End If
+        End Function
+
+        Public Function GetNextDocument(doc As LN.NotesDocument) As LN.NotesDocument
+            Dim doc1 As Object = DocCollection.GetNextDocument(doc.Doc)
+            If doc1 Is Nothing Then
+                Return Nothing
+            Else
+                Return New LN.NotesDocument(doc1)
+            End If
+        End Function
+
+        Public Function GetLastDocument() As LN.NotesDocument
+            Dim doc1 As Object = DocCollection.GetLastDocument()
+            If doc1 Is Nothing Then
+                Return Nothing
+            Else
+                Return New LN.NotesDocument(doc1)
+            End If
+        End Function
+
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+    Public Class NotesItem
+        
+        Protected nItem As Object
+
+        Public Sub New(ByRef item As Object)
+            Me.nItem = item
+        End Sub
+
+        'Public Sub New(ByRef notesDocument As LN.NotesDocument, ByVal name As String, ByVal value As Object, Optional ByVal specialType As Integer)
+        '    Me.nItem = item
+        'End Sub
+
+        Protected Overrides Sub Finalize()
+            nItem = Nothing
+        End Sub
+
+        Public ReadOnly Property DateTimeValue() As NotesDateTime
+            Get
+                Return New LN.NotesDateTime(nItem.DateTimeValue)
+            End Get
+        End Property
+
+        Public ReadOnly Property IsAuthors() As Boolean
+            Get
+                Return nItem.IsAuthors
+            End Get
+        End Property
+
+        Public ReadOnly Property IsEncrypted() As Boolean
+            Get
+                Return nItem.IsEncrypted
+            End Get
+        End Property
+
+        Public ReadOnly Property IsNames() As Boolean
+            Get
+                Return nItem.IsNames
+            End Get
+        End Property
+
+        Public ReadOnly Property IsProtected() As Boolean
+            Get
+                Return nItem.IsProtected
+            End Get
+        End Property
+
+        Public ReadOnly Property IsReaders() As Boolean
+            Get
+                Return nItem.IsReaders
+            End Get
+        End Property
+
+        Public ReadOnly Property IsSigned() As Boolean
+            Get
+                Return nItem.IsSigned
+            End Get
+        End Property
+
+        Public ReadOnly Property IsSummary() As Boolean
+            Get
+                Return nItem.IsSummary
+            End Get
+        End Property
+
+        Public ReadOnly Property LastModified() As Date
+            Get
+                Return nItem.LastModified
+            End Get
+        End Property
+
+        Public ReadOnly Property Name() As String
+            Get
+                Return nItem.Name
+            End Get
+        End Property
+
+        Public ReadOnly Property SaveToDisk() As Boolean
+            Get
+                Return nItem.SaveToDisk
+            End Get
+        End Property
+
+        Public ReadOnly Property Text() As String
+            Get
+                Return nItem.Text
+            End Get
+        End Property
+
+        Public ReadOnly Property Type() As Long
+            Get
+                Return nItem.Type
+            End Get
+        End Property
+
+        Public ReadOnly Property ValueLength() As Long
+            Get
+                Return nItem.ValueLength
+            End Get
+        End Property
+        
+        
+        Public Function GetValueCustomDataBytes(ByVal dataTypeName As String) As Byte()
+            Return nItem.GetValueCustomDataBytes(dataTypeName)
+        End Function
+
+
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+    Public Class NotesItemArray
+        
+        Private items As Object
+
+        Public Sub New(ByRef items As Object)
+            Me.items = items
+        End Sub
+
+        Default Public ReadOnly Property Item(ByVal Index As Integer) As LN.NotesItem
+            Get
+                Return New LN.NotesItem(Me.items(Index))
+            End Get
+        End Property
+
+        Public ReadOnly Property Length() As Integer
+            Get
+                Return Me.items.Length
+            End Get
+        End Property
+
+        Protected Overrides Sub Finalize()
+            Me.items = Nothing
+        End Sub
+
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Public Class NotesRichTextItem
+        Inherits NotesItem
+        
+        Public Sub New(ByRef item As Object)
+            MyBase.New(item)
+        End Sub
+
+        Protected Overrides Sub Finalize()
+            MyBase.nItem = Nothing
+        End Sub
+
+        
+        Public Function GetFormattedText(ByVal tabstrip As Boolean, ByVal lineLength As Integer) As String
+            Return MyBase.nItem.GetFormattedText()
+        End Function
+
+        Public Function GetUnformattedText() As String
+            Return MyBase.nItem.GetUnformattedText()
+        End Function
+
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    ' Public Class NotesName
+    ' End Class
+
+    ' Public Class NotesAgent
+    ' End Class
+
+    Public Class NotesDateTime
+
+        Private notesDateTime As Object
+        
+        Public Sub New(ByVal notesDateTime As Object)
+            Me.notesDateTime = notesDateTime
+        End Sub
+        
+        Protected Overrides Sub Finalize()
+            Me.notesDateTime = Nothing
+        End Sub
+
+        Public ReadOnly Property DateOnly() As String
+            Get
+                Return notesDateTime.DateOnly
+            End Get
+        End Property
+
+        Public ReadOnly Property GMTTime() As String
+            Get
+                Return notesDateTime.GMTTime
+            End Get
+        End Property
+
+        Public ReadOnly Property IsDST() As Boolean
+            Get
+                Return notesDateTime.IsDST
+            End Get
+        End Property
+
+        Public ReadOnly Property IsValidDate() As Boolean
+            Get
+                Return notesDateTime.IsValidDate
+            End Get
+        End Property
+
+        Public ReadOnly Property LocalTime() As String
+            Get
+                Return notesDateTime.LocalTime
+            End Get
+        End Property
+
+        Public ReadOnly Property TimeOnly() As String
+            Get
+                Return notesDateTime.TimeOnly
+            End Get
+        End Property
+
+        Public ReadOnly Property TimeZone() As Integer
+            Get
+                Return notesDateTime.TimeZone
+            End Get
+        End Property
+
+        Public ReadOnly Property ZoneTime() As String
+            Get
+                Return notesDateTime.ZoneTime
+            End Get
+        End Property
+        
+    End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Public Class NotesUIWorkspace
 
         Private notesUIWorkspace As Object
@@ -1155,6 +1308,8 @@ Namespace LN
 
     End Class
     
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Public Class NotesUIDatabase
 
         Private notesUIDatabase As Object
@@ -1180,6 +1335,8 @@ Namespace LN
         End Property
 
     End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     Public Class NotesUIView
 
@@ -1194,6 +1351,8 @@ Namespace LN
         End Sub
         
     End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     Public Class NotesUIDocument
 
@@ -1208,5 +1367,7 @@ Namespace LN
         End Sub
         
     End Class
+    
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 End Namespace
