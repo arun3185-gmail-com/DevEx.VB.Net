@@ -368,6 +368,15 @@ Namespace LN
             End Get
         End Property
 
+
+        Public Function GetDocumentByID(ByVal NoteID As String) As LN.NotesDocument
+            Return New LN.NotesDocument(Database.GetDocumentByID(NoteID))
+        End Function
+
+        Public Function GetDocumentByUNID(ByVal Unid As String) As LN.NotesDocument
+            Return New LN.NotesDocument(Database.GetDocumentByUNID(Unid))
+        End Function
+
     End Class
     
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
